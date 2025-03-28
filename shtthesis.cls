@@ -170,15 +170,28 @@
   supervisor = {
     default = {导师姓名},
   },
+  cosupervisor = {
+    default = {},
+  },
   supervisor* = {
     default = {Name of supervisor},
     name    = supervisor@en,
   },
+  cosupervisor* = {
+    default = {},
+    name    = cosupervisor@en,
+  },
   supervisor-institution = {
     name = supervisor@institution,
   },
+  cosupervisor-institution = {
+    name = cosupervisor@institution,
+  },
   supervisor-institution* = {
     name = supervisor@institution@en,
+  },
+  cosupervisor-institution* = {
+    name = cosupervisor@institution@en,
   },
   institution = {
     % default = {上海科技大学信息科学与技术学院},
@@ -300,7 +313,6 @@
   gbpub = false,
   gbcitelocal = chinese,
   sortcites = false,
-  mergedate = none,
 }{biblatex}
 \LoadClass{ctexbook}
 \RequirePackage{expl3}
@@ -1207,16 +1219,45 @@
             \fi%
           }}} \\
         指导教师：&
+        \ifdefempty{\sht@cosupervisor}{
           \multicolumn{2}{c}{\shifted@uline{\shifted@box{%
-            \ifsht@anonymous%
-              \sht@anonymous@str%
-            \else%
-              \sht@supervisor%
-            \fi%
-          }}} \\
+          \ifsht@anonymous%
+            \sht@anonymous@str%
+          \else%
+            \sht@supervisor%
+          \fi%
+        }}} \\
         \ifdefempty{\sht@supervisor@institution}{}{ &
           \multicolumn{2}{c}{\shifted@uline{%
             \shifted@box{\sht@supervisor@institution}}} \\
+        }
+        }{
+          \multicolumn{2}{c}{\shifted@uline{%
+              \shifted@box{
+                \ifsht@anonymous%
+                  \sht@anonymous@str
+                \else
+                \ifdef{\sht@supervisor@institution}{
+                  \sht@supervisor~\sht@supervisor@institution
+                }{
+                  \sht@supervisor
+                }
+                \fi
+              }
+            }} \\
+          & \multicolumn{2}{c}{\shifted@uline{%
+              \shifted@box{
+                \ifsht@anonymous%
+                  \sht@anonymous@str
+                \else
+                  \ifdef{\sht@cosupervisor@institution}{
+                    \sht@cosupervisor~\sht@cosupervisor@institution
+                  }{ 
+                    \sht@cosupervisor
+                  }
+                \fi
+              }
+            }} \\
         }
         学位类别：&
           \multicolumn{2}{c}{\shifted@uline{\shifted@box{\sht@degree@name}}} \\
@@ -1276,7 +1317,11 @@
       \ifsht@anonymous%
         \sht@anonymous@str%
       \else%
-        \sht@supervisor@en%
+        \ifdefempty{\sht@cosupervisor@en}{
+          \sht@supervisor@en
+        }{
+          \sht@supervisor@en, \sht@cosupervisor@en
+        }
       \fi%
     }
 
