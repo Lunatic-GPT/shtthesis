@@ -532,6 +532,16 @@
 }
 \end{latex}
 
+如果论文封面需要同时呈现两位导师及他/她们的工作单位，可以参考本次 pull request 中更新的 shtthesis.cls，在保持原有功能不变的情况下，增加了双导师封面（中英文）的支持。在使用该版 shtthesis.cls 的同时，在 .tex 文件的声明部分添加双导师的声明，例如：
+
+\begin{latex}
+  % 提供双导师版封面
+  cosupervisor = {企业导师姓名}, 
+  cosupervisor* = {ndustry Mentor Name},
+  cosupervisor-institution = {上海联影医疗科技股份有限公司},
+  cosupervisor-institution* = {Shanghai United Imaging Medical Technology Co., Ltd.},
+\end{latex}
+
 \subsection{成文日期}
 通过 date 和 date* 分别设置中英文成文日期，日期内容应按照申请学位的时间节点填写，具体请参考当年《规范》。研究生成文日期格式为：
 \begin{latex}
